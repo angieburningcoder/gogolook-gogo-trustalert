@@ -1,0 +1,53 @@
+gogolook-fake-door-mvp/
+├── app/                          # Next.js App Router
+│   ├── layout.tsx                # Root layout (fonts, metadata)
+│   ├── page.tsx                  # Landing page (/)
+│   ├── globals.css               # Global styles + Tailwind
+│   ├── thanks/                   # Thank you page
+│   │   └── page.tsx
+│   └── api/                      # API routes
+│       └── lead/
+│           └── route.ts          # Lead submission endpoint
+│
+├── components/                   # React components
+│   ├── Header.tsx                # Top navigation bar
+│   ├── Hero.tsx                  # Hero section with CTA
+│   ├── PainPoints.tsx            # Pain points cards
+│   ├── ValueProps.tsx            # Value propositions
+│   ├── Features.tsx              # Feature showcase
+│   ├── CTASection.tsx            # Bottom CTA section
+│   ├── Footer.tsx                # Footer with disclaimer
+│   └── LeadModal.tsx             # Lead form modal
+│
+├── lib/                          # Utilities
+│   ├── analytics.ts              # Analytics tracking
+│   └── submitLead.ts             # Form submission logic
+│
+├── public/                       # Static assets (empty for now)
+│
+├── node_modules/                 # Dependencies (gitignored)
+│
+├── .next/                        # Build output (gitignored)
+│
+├── package.json                  # Dependencies & scripts
+├── package-lock.json
+│
+├── tsconfig.json                 # TypeScript config
+├── next.config.ts                # Next.js config
+├── tailwind.config.ts            # Tailwind config
+├── postcss.config.mjs            # PostCSS config
+├── .eslintrc.json                # ESLint config
+│
+├── .env.example                  # Environment variables template
+├── .env                          # Local env vars (gitignored)
+│
+├── .gitignore                    # Git ignore rules
+├── .gitattributes                # Git attributes
+│
+├── README.md                     # Main documentation
+├── QUICKSTART.md                 # Quick start guide
+├── DEPLOYMENT.md                 # Deployment guide
+├── INSIGHTS.md                   # Product insights & testing
+└── PROJECT_STRUCTURE.txt         # This file
+
+Total: ~30 files
