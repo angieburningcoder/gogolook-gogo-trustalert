@@ -38,9 +38,9 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="py-24 px-6 bg-foreground/[0.02]">
+    <section id="features" className="py-32 px-6 bg-bg-blue-light/20">
       <div className="max-w-5xl mx-auto">
-        <h2 className="font-serif text-3xl md:text-4xl font-medium text-center mb-4">
+        <h2 className="font-serif text-3xl md:text-4xl text-center mb-4">
           功能特色
         </h2>
         <p className="text-center text-foreground/60 mb-16 max-w-2xl mx-auto">
@@ -53,13 +53,13 @@ export default function Features() {
             return (
               <div
                 key={index}
-                className="bg-background rounded-2xl p-8 shadow-sm border border-foreground/5"
+                className="bg-background rounded-2xl p-8 shadow-sm border border-foreground/[0.08]"
               >
-                <div className="w-12 h-12 rounded-xl bg-foreground/5 flex items-center justify-center mb-6">
-                  <Icon className="w-6 h-6" />
+                <div className="w-12 h-12 rounded-xl bg-primary-blue/10 flex items-center justify-center mb-6">
+                  <Icon className="w-6 h-6 text-primary-blue" />
                 </div>
 
-                <h3 className="font-serif text-xl font-medium mb-4">
+                <h3 className="font-serif text-xl mb-4">
                   {feature.title}
                 </h3>
 
@@ -72,7 +72,7 @@ export default function Features() {
                   ))}
                 </ul>
 
-                <p className="text-sm text-foreground/50 pt-4 border-t border-foreground/5">
+                <p className="text-sm text-foreground/50 pt-4 border-t border-foreground/[0.08]">
                   {feature.note}
                 </p>
               </div>

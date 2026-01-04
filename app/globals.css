@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --background: #fafaf8;
+  --background: #ffffff;
   --foreground: #1a1a1a;
+  --primary-blue: #0059FF;
+  --bg-blue-light: #EDF4FF;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,9 +26,15 @@ body {
 }
 
 @layer base {
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-noto-serif-jp), Georgia, serif;
-    font-weight: 500;
+    font-weight: 700;
     letter-spacing: -0.02em;
   }
 }

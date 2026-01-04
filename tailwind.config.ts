@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'primary-blue': '#0059FF',
+        'bg-blue-light': '#EDF4FF',
       },
       fontFamily: {
         sans: ['var(--font-noto-sans-jp)', 'Inter', 'system-ui', 'sans-serif'],
