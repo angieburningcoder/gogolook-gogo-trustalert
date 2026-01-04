@@ -81,6 +81,20 @@
 - **字體**：Noto Sans JP, Noto Serif JP, Inter
 - **圖示**：lucide-react
 
+## 📚 文檔導航
+
+本專案包含完整的文檔系統，已按照用途分類整理：
+
+### 快速導航
+
+- **🚀 新手入門** → [快速開始指南](./docs/development/QUICKSTART.md)（5 分鐘上手）
+- **📖 詳細文檔** → [文檔中心](./docs/README.md)（所有文檔索引）
+- **🏗️ 技術架構** → [架構文檔](./docs/development/ARCHITECTURE.md)（深入技術細節）
+- **📊 產品驗證** → [產品洞察](./docs/product/INSIGHTS.md)（測試策略與指標）
+- **🚢 部署指南** → [部署文檔](./docs/deployment/DEPLOYMENT.md)（Vercel 部署教學）
+
+---
+
 ## 快速開始
 
 ### 1. 安裝依賴
@@ -141,10 +155,24 @@ gogolook-fake-door-mvp/
 ├── lib/
 │   ├── analytics.ts            # 追蹤工具
 │   └── submitLead.ts           # 表單提交邏輯
+├── docs/                       # 📚 文檔中心
+│   ├── README.md               # 文檔索引
+│   ├── development/            # 開發文檔
+│   │   ├── QUICKSTART.md       # 快速開始
+│   │   ├── CHEATSHEET.md       # 快速參考
+│   │   ├── ARCHITECTURE.md     # 技術架構
+│   │   └── PROJECT_STRUCTURE.txt
+│   ├── deployment/             # 部署文檔
+│   │   └── DEPLOYMENT.md       # 部署指南
+│   └── product/                # 產品文檔
+│       ├── INSIGHTS.md         # 產品洞察
+│       └── PROJECT_SUMMARY.md  # 交付總結
 ├── .env.example                # 環境變數範例
 ├── tailwind.config.ts          # Tailwind 設定
 └── README.md
 ```
+
+> 💡 **提示**: 查看 [docs/README.md](./docs/README.md) 了解完整的文檔導航
 
 ## 表單設定
 
