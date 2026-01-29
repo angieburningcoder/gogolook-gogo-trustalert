@@ -8,11 +8,11 @@ import ValueProps from '@/components/ValueProps';
 import Features from '@/components/Features';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
-import LeadModal from '@/components/LeadModal';
+import AssessmentFlow from '@/components/AssessmentFlow';
 import { trackPageView } from '@/lib/analytics';
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAssessmentOpen, setIsAssessmentOpen] = useState(false);
 
   useEffect(() => {
     trackPageView('landing');
@@ -22,7 +22,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Header />
 
-      <Hero onOpenForm={() => setIsModalOpen(true)} />
+      <Hero onOpenForm={() => setIsAssessmentOpen(true)} />
 
       <PainPoints />
 
@@ -30,13 +30,13 @@ export default function Home() {
 
       <Features />
 
-      <CTASection onOpenForm={() => setIsModalOpen(true)} />
+      <CTASection onOpenForm={() => setIsAssessmentOpen(true)} />
 
       <Footer />
 
-      <LeadModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+      <AssessmentFlow
+        isOpen={isAssessmentOpen}
+        onClose={() => setIsAssessmentOpen(false)}
       />
     </main>
   );

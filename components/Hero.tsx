@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, PlayCircle } from 'lucide-react';
+import { ArrowRight, Shield, Zap } from 'lucide-react';
 import { track } from '@/lib/analytics';
 
 interface HeroProps {
@@ -15,40 +15,36 @@ export default function Hero({ onOpenForm }: HeroProps) {
 
   const handleSecondaryCTA = () => {
     track('cta_click', { location: 'hero', type: 'secondary' });
-    // Scroll to features section
     document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <section className="pt-40 pb-32 px-6">
       <div className="max-w-4xl mx-auto text-center">
-        {/* 🔍 Insight: Test which fear resonates most:
-            - Trust: "客戶信任" (current)
-            - Cost: "營收損失"
-            - Legal: "法律風險"
-        */}
+        <div className="inline-flex items-center gap-2 bg-red-50 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-8">
+          <Shield className="w-4 h-4" />
+          每天有超過 1000+ 個品牌被偽冒
+        </div>
+
         <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight mb-6 text-balance">
-          當有人冒用您的品牌
+          你的品牌<span className="text-red-500">正在被偽冒</span>
           <br />
-          <span className="text-foreground/60">客戶的信任正在流失</span>
+          <span className="text-foreground/60">你知道嗎？</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-foreground/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-          偽冒網站、假客服、詐騙社群帳號⋯⋯
+        <p className="text-lg md:text-xl text-foreground/70 mb-8 max-w-2xl mx-auto leading-relaxed">
+          Watchmen Lite 幫你 24/7 監控品牌偽冒帳號
           <br />
-          不用再靠人工搜尋,讓系統即時發現、即時通知、即時處理。
+          <span className="text-primary-blue font-medium">即時發現 → 風險分級 → 證據打包 → 協助處理</span>
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          {/* 🔍 Insight: Test CTA copy urgency:
-              - "加入企業冒名監控候補" (waitlist, lower commitment)
-              - "立即啟用監控服務" (immediate, higher urgency)
-          */}
           <button
             onClick={handlePrimaryCTA}
             className="group px-8 py-4 bg-primary-blue text-white rounded-full font-medium text-lg hover:bg-[#0047CC] transition-all shadow-sm hover:shadow-md flex items-center gap-2"
           >
-            加入企業冒名監控候補
+            <Zap className="w-5 h-5" />
+            免費檢測我的被偽冒風險
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
 
@@ -56,14 +52,12 @@ export default function Hero({ onOpenForm }: HeroProps) {
             onClick={handleSecondaryCTA}
             className="px-8 py-4 border-2 border-primary-blue text-primary-blue rounded-full font-medium text-lg hover:bg-primary-blue/5 transition-colors flex items-center gap-2"
           >
-            <PlayCircle className="w-5 h-5" />
-            看看如何運作
+            了解服務內容
           </button>
         </div>
 
-        {/* Trust indicator */}
         <p className="mt-8 text-sm text-foreground/50">
-          早期體驗方案 · 限量開放中
+          只需 30 秒回答幾個問題 · 立即獲得專屬風險報告
         </p>
       </div>
     </section>

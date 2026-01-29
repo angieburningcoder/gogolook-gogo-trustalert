@@ -1,23 +1,36 @@
-import { Bell, Zap, FileCheck } from 'lucide-react';
+import { ListChecks, Lightbulb, FileText, Bell, HeartHandshake } from 'lucide-react';
 
 const values = [
   {
-    icon: Zap,
-    title: '即時監控',
-    description: '24/7 自動掃描網路上的品牌冒用行為，包含網站、社群、App 等多種來源。',
-    highlight: '不漏接任何一次冒用',
+    icon: ListChecks,
+    title: '疑似偽冒清單',
+    description: '包含平台來源與具體連結，精準掌握每一個可能的偽冒威脅。',
+    highlight: '不只告訴你有問題，還告訴你問題在哪',
+  },
+  {
+    icon: Lightbulb,
+    title: '風險分級 (H/M/L)',
+    description: '專業自動化判斷每個偽冒帳號的風險等級，客戶無需具備資安背景也能快速了解威脅程度。',
+    highlight: '高、中、低三級分類，一目瞭然',
+  },
+  {
+    icon: FileText,
+    title: 'Evidence Lite 證據包',
+    description: '提供素材截圖、CTA 內容、首次出現時間等完整證據，加速後續處理流程。',
+    highlight: '完整蒐證，省去您手動截圖的時間',
   },
   {
     icon: Bell,
-    title: '即時通知',
-    description: '發現可疑冒用時立即通知，透過 Email、Slack 或 LINE，讓您第一時間掌握狀況。',
-    highlight: '最快 5 分鐘內收到警示',
+    title: '週報與即時通知',
+    description: '高風險事件即時掌握，定期週報讓您持續了解監控狀態，數據交付感透明且有感。',
+    highlight: '重要事件即時推播，不會漏接',
   },
   {
-    icon: FileCheck,
-    title: '處理建議',
-    description: '不只告訴您「被冒用了」，更提供檢舉流程、蒐證建議、法律資源等下一步行動指引。',
-    highlight: '從發現到處理，一站完成',
+    icon: HeartHandshake,
+    title: '協助處理 SOP',
+    description: '半代管服務，提供檢舉流程 SOP 與專人協助，省事是提升 LTV 的核心引擎。',
+    highlight: 'Plus 方案專屬服務',
+    isPlusFeature: true,
   },
 ];
 
@@ -25,34 +38,44 @@ export default function ValueProps() {
   return (
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
-        <h2 className="font-serif text-3xl md:text-4xl text-center mb-4">
-          一套完整的品牌保護系統
-        </h2>
-        <p className="text-center text-foreground/60 mb-16 max-w-2xl mx-auto">
-          從發現、通知到處理,讓您專注本業
-        </p>
+        <div className="text-center mb-16">
+          <p className="text-primary-blue font-medium mb-3">產品價值主張</p>
+          <h2 className="font-serif text-3xl md:text-4xl mb-4">
+            賣的不是「監控」
+          </h2>
+          <p className="text-xl text-foreground/70">
+            而是「<span className="text-primary-blue font-medium">可採取行動的成果</span>」
+          </p>
+        </div>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           {values.map((value, index) => {
             const Icon = value.icon;
             return (
               <div
                 key={index}
-                className="bg-background rounded-2xl p-8 border border-foreground/[0.08] hover:border-primary-blue/20 transition-all group"
+                className="bg-background rounded-2xl p-6 border border-foreground/[0.08] hover:border-primary-blue/20 transition-all group"
               >
-                <div className="flex flex-col md:flex-row gap-6 items-start">
-                  <div className="shrink-0 w-14 h-14 rounded-xl bg-primary-blue/10 group-hover:bg-primary-blue/20 flex items-center justify-center transition-colors">
-                    <Icon className="w-7 h-7 text-primary-blue" />
+                <div className="flex gap-5 items-start">
+                  <div className="shrink-0 w-12 h-12 rounded-xl bg-primary-blue/10 group-hover:bg-primary-blue/20 flex items-center justify-center transition-colors">
+                    <Icon className="w-6 h-6 text-primary-blue" />
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="font-serif text-2xl mb-3">
-                      {value.title}
-                    </h3>
-                    <p className="text-foreground/70 leading-relaxed mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h3 className="font-serif text-xl text-primary-blue">
+                        {value.title}
+                      </h3>
+                      {'isPlusFeature' in value && value.isPlusFeature && (
+                        <span className="text-xs bg-foreground/10 text-foreground/70 px-2 py-0.5 rounded-full">
+                          Plus 方案
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-foreground/70 leading-relaxed mb-2">
                       {value.description}
                     </p>
-                    <p className="text-sm font-medium text-foreground/80 border-l-2 border-primary-blue pl-4">
+                    <p className="text-sm text-foreground/50 border-l-2 border-primary-blue/30 pl-3">
                       {value.highlight}
                     </p>
                   </div>

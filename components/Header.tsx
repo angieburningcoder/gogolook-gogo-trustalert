@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Shield } from 'lucide-react';
+import { Eye } from 'lucide-react';
 
 export default function Header() {
   return (
@@ -11,38 +11,27 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <Image
               src="/images/gogolook-logo.png"
-              alt="Gogo! TrustAlert Logo"
+              alt="Gogolook Logo"
               width={120}
               height={40}
               className="h-10 w-auto object-contain"
               priority
             />
           </div>
-          <div>
-            <h1 className="font-serif text-lg font-medium">Gogo! TrustAlert</h1>
-            <p className="text-xs text-foreground/60">守護品牌聲譽的第一道防線</p>
+          <div className="border-l border-foreground/20 pl-3">
+            <div className="flex items-center gap-2">
+              <Eye className="w-5 h-5 text-primary-blue" />
+              <h1 className="font-serif text-lg font-medium">Watchmen Lite</h1>
+            </div>
+            <p className="text-xs text-foreground/60">品牌偽冒監測訂閱服務</p>
           </div>
         </div>
 
-        {/* Optional: Language toggle or info button placeholder */}
-        <button
-          className="p-2 rounded-xl hover:bg-foreground/5 transition-colors"
-          aria-label="更多資訊"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
+        <div className="flex items-center gap-2">
+          <span className="text-xs bg-primary-blue/10 text-primary-blue px-3 py-1 rounded-full font-medium">
+            SaaS 訂閱制
+          </span>
+        </div>
       </div>
     </header>
   );

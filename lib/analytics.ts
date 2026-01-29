@@ -11,7 +11,10 @@ type EventName =
   | 'form_submit'
   | 'form_success'
   | 'form_error'
-  | 'page_view';
+  | 'page_view'
+  | 'assessment_open'
+  | 'assessment_step_complete'
+  | 'assessment_complete';
 
 interface EventProperties {
   [key: string]: string | number | boolean | undefined;

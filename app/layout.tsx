@@ -23,8 +23,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "企業偽冒監控 | 保護您的品牌聲譽",
-  description: "即時發現並處理企業偽冒行為，守護客戶信任與品牌價值",
+  title: "Watchmen Lite | 品牌偽冒監測訂閱服務 by Gogolook",
+  description: "SaaS 訂閱制品牌偽冒監測服務，即時發現偽冒帳號、風險分級、證據包、即時通知，守護您的品牌聲譽",
 };
 
 export default function RootLayout({
