@@ -177,8 +177,7 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
     email: '',
   });
   const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
-  const [identityCount, setIdentityCount] = useState(1);
-  const [keywordCount, setKeywordCount] = useState(5);
+  const [selectedIdentities, setSelectedIdentities] = useState<string[]>([]);
   const [showPricingDetails, setShowPricingDetails] = useState(false);
 
   useEffect(() => {
@@ -198,8 +197,20 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
     if (currentStep === 5) {
       const suggested = generateKeywords(formData);
       setSelectedKeywords(suggested.slice(0, 5));
-      setKeywordCount(Math.min(suggested.length, 5));
-      setIdentityCount(Math.max(formData.brandCount, 1));
+    }
+  }, [currentStep, formData]);
+
+  // When reaching pricing step, initialize selected identities
+  useEffect(() => {
+    if (currentStep === 6) {
+      const identities = formData.brandNames.filter(n => n);
+      if (identities.length === 0) {
+        // Use main name if no brand names entered
+        const mainName = formData.chineseName || formData.englishName || '您的品牌';
+        setSelectedIdentities([mainName]);
+      } else {
+        setSelectedIdentities(identities);
+      }
     }
   }, [currentStep, formData]);
 
@@ -251,7 +262,6 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
 
   const riskScore = calculateRiskScore(formData);
   const suggestedKeywords = generateKeywords(formData);
-  const pricing = calculatePrice(identityCount, keywordCount);
 
   const getRiskLevel = (score: number) => {
     if (score >= 70) return { level: '高風險', color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200', icon: AlertTriangle };
@@ -630,55 +640,86 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
                 <p className="text-foreground/60">根據您填寫的資料，我們為您推薦以下監控範圍</p>
               </div>
 
-              {/* Identity Summary */}
+              {/* Identity Summary - Editable */}
               <div className="bg-foreground/[0.02] rounded-2xl p-5 border border-foreground/5">
                 <div className="flex items-center gap-2 mb-4">
                   <User className="w-5 h-5 text-primary-blue" />
                   <span className="font-medium">監控身份</span>
                   <span className="ml-auto text-sm text-foreground/60">
-                    共 {formData.brandCount} 個身份
+                    已選 {selectedIdentities.length} 個
                   </span>
                 </div>
                 <div className="space-y-2">
-                  {formData.brandNames.filter(n => n).length > 0 ? (
-                    formData.brandNames.filter(n => n).map((name, idx) => (
-                      <div key={idx} className="flex items-center gap-3 p-3 bg-primary-blue/5 rounded-xl">
-                        <CheckCircle className="w-4 h-4 text-primary-blue shrink-0" />
-                        <span className="text-sm font-medium">{name}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="flex items-center gap-3 p-3 bg-primary-blue/5 rounded-xl">
-                      <CheckCircle className="w-4 h-4 text-primary-blue shrink-0" />
-                      <span className="text-sm font-medium">
-                        {formData.chineseName || formData.englishName || '您的品牌'}
-                      </span>
-                    </div>
-                  )}
+                  {(() => {
+                    const allIdentities = formData.brandNames.filter(n => n).length > 0
+                      ? formData.brandNames.filter(n => n)
+                      : [formData.chineseName || formData.englishName || '您的品牌'];
+                    return allIdentities.map((name, idx) => {
+                      const isSelected = selectedIdentities.includes(name);
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => {
+                            if (isSelected && selectedIdentities.length > 1) {
+                              setSelectedIdentities(prev => prev.filter(i => i !== name));
+                            } else if (!isSelected) {
+                              setSelectedIdentities(prev => [...prev, name]);
+                            }
+                          }}
+                          className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
+                            isSelected
+                              ? 'bg-primary-blue/10 border-2 border-primary-blue/30'
+                              : 'bg-foreground/5 border-2 border-transparent opacity-50'
+                          }`}
+                        >
+                          {isSelected ? (
+                            <CheckCircle className="w-4 h-4 text-primary-blue shrink-0" />
+                          ) : (
+                            <div className="w-4 h-4 rounded-full border-2 border-foreground/30 shrink-0" />
+                          )}
+                          <span className="text-sm font-medium flex-1 text-left">{name}</span>
+                          {isSelected && selectedIdentities.length > 1 && (
+                            <X className="w-4 h-4 text-foreground/40 hover:text-foreground/60" />
+                          )}
+                        </button>
+                      );
+                    });
+                  })()}
                 </div>
+                <p className="text-xs text-foreground/50 mt-3">
+                  點擊可新增或移除監控身份
+                </p>
               </div>
 
-              {/* Keywords Summary */}
+              {/* Keywords Summary - Editable */}
               <div className="bg-foreground/[0.02] rounded-2xl p-5 border border-foreground/5">
                 <div className="flex items-center gap-2 mb-4">
                   <Eye className="w-5 h-5 text-primary-blue" />
                   <span className="font-medium">監控關鍵字</span>
                   <span className="ml-auto text-sm text-foreground/60">
-                    共 {selectedKeywords.length} 個關鍵字
+                    已選 {selectedKeywords.length} 個
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {selectedKeywords.map(keyword => (
-                    <span
+                    <button
                       key={keyword}
-                      className="px-3 py-1.5 bg-primary-blue/10 text-primary-blue rounded-full text-sm"
+                      onClick={() => {
+                        if (selectedKeywords.length > 1) {
+                          setSelectedKeywords(prev => prev.filter(k => k !== keyword));
+                        }
+                      }}
+                      className="group px-3 py-1.5 bg-primary-blue/10 text-primary-blue rounded-full text-sm flex items-center gap-1.5 hover:bg-primary-blue/20 transition-colors"
                     >
                       {keyword}
-                    </span>
+                      {selectedKeywords.length > 1 && (
+                        <X className="w-3 h-3 opacity-50 group-hover:opacity-100" />
+                      )}
+                    </button>
                   ))}
                 </div>
                 <p className="text-xs text-foreground/50 mt-3">
-                  可返回上一步調整關鍵字
+                  點擊關鍵字可移除，或返回上一步新增更多
                 </p>
               </div>
 
@@ -689,12 +730,12 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
                   <div className="flex items-baseline justify-center gap-1 mb-1">
                     <span className="text-sm">NT$</span>
                     <span className="text-4xl font-bold text-primary-blue">
-                      {calculatePrice(Math.max(formData.brandCount, 1), selectedKeywords.length).monthly.toLocaleString()}
+                      {calculatePrice(selectedIdentities.length, selectedKeywords.length).monthly.toLocaleString()}
                     </span>
                     <span className="text-foreground/60">/月</span>
                   </div>
                   <p className="text-sm text-foreground/50 mb-4">
-                    年繳 NT${calculatePrice(Math.max(formData.brandCount, 1), selectedKeywords.length).yearly.toLocaleString()}（省 2 個月）
+                    年繳 NT${calculatePrice(selectedIdentities.length, selectedKeywords.length).yearly.toLocaleString()}（省 2 個月）
                   </p>
 
                   <button
@@ -733,18 +774,22 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
               </div>
 
               {/* Pricing Breakdown */}
-              <div className="text-xs text-foreground/50 space-y-1">
+              <div className="text-xs text-foreground/50 space-y-1 bg-foreground/[0.02] rounded-xl p-4">
                 <div className="flex justify-between">
                   <span>基本月費</span>
                   <span>NT$ 990</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>身份監控 × {Math.max(formData.brandCount, 1)}</span>
-                  <span>NT$ {(Math.max(formData.brandCount, 1) * 299).toLocaleString()}</span>
+                  <span>身份監控 × {selectedIdentities.length}</span>
+                  <span>NT$ {(selectedIdentities.length * 299).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>關鍵字監控 × {selectedKeywords.length}</span>
                   <span>NT$ {(selectedKeywords.length * 99).toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between pt-2 border-t border-foreground/10 font-medium text-foreground/70">
+                  <span>合計</span>
+                  <span>NT$ {calculatePrice(selectedIdentities.length, selectedKeywords.length).monthly.toLocaleString()} /月</span>
                 </div>
               </div>
 
@@ -791,10 +836,12 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
               onClick={() => {
                 track('assessment_complete', {
                   riskScore,
-                  identityCount: formData.brandCount,
+                  identityCount: selectedIdentities.length,
                   keywordCount: selectedKeywords.length,
-                  pricing: calculatePrice(Math.max(formData.brandCount, 1), selectedKeywords.length).monthly,
+                  pricing: calculatePrice(selectedIdentities.length, selectedKeywords.length).monthly,
                   email: formData.email,
+                  selectedIdentities: selectedIdentities.join(','),
+                  selectedKeywords: selectedKeywords.join(','),
                 });
                 window.location.href = '/thanks';
               }}
