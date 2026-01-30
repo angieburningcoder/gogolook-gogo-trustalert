@@ -127,6 +127,62 @@ function calculatePrice(identityCount: number, keywordCount: number): { monthly:
   return { monthly, yearly };
 }
 
+// Impact cost calculation (不作為成本計算)
+function calculateImpactCost(data: FormData): {
+  trustCost: { dmIncrease: string; negativeRatio: string };
+  moneyCost: { cpmIncrease: string; conversionDrop: string };
+  recoveryCost: { months: string };
+} {
+  const followers = parseInt(data.maxFollowers) || 0;
+  const platformCount = data.platforms.length;
+  const hasVerification = data.hasVerification;
+  const isHighRiskIndustry = ['finance', 'ecommerce', 'kol'].includes(data.industry);
+
+  // 信任成本 - 根據粉絲數
+  let dmIncrease: string;
+  let negativeRatio: string;
+  if (followers >= 100000) {
+    dmIncrease = '50-100 則/週';
+    negativeRatio = '15-25%';
+  } else if (followers >= 10000) {
+    dmIncrease = '20-50 則/週';
+    negativeRatio = '10-20%';
+  } else {
+    dmIncrease = '5-15 則/週';
+    negativeRatio = '5-10%';
+  }
+
+  // 金錢成本 - 根據產業、認證狀態
+  let cpmIncrease: string;
+  let conversionDrop: string;
+  if (isHighRiskIndustry && !hasVerification) {
+    cpmIncrease = '25-40%';
+    conversionDrop = '20-35%';
+  } else if (isHighRiskIndustry || !hasVerification) {
+    cpmIncrease = '20-35%';
+    conversionDrop = '15-25%';
+  } else {
+    cpmIncrease = '15-25%';
+    conversionDrop = '10-20%';
+  }
+
+  // 修復成本 - 根據平台數和品牌數
+  let months: string;
+  if (platformCount >= 5 || data.brandCount >= 3) {
+    months = '6-12 個月';
+  } else if (platformCount >= 3) {
+    months = '4-8 個月';
+  } else {
+    months = '3-6 個月';
+  }
+
+  return {
+    trustCost: { dmIncrease, negativeRatio },
+    moneyCost: { cpmIncrease, conversionDrop },
+    recoveryCost: { months },
+  };
+}
+
 const STEPS = ['客戶類型', '身份資訊', '產業領域', '社群平台', '品牌資訊', '風險報告', '方案試算'];
 
 const PLATFORMS = [
@@ -600,6 +656,51 @@ export default function AssessmentFlow({ isOpen, onClose }: AssessmentFlowProps)
                   )}
                 </div>
               </div>
+
+              {/* Impact Warning - 不作為成本提示 */}
+              {riskScore >= 40 && (() => {
+                const impact = calculateImpactCost(formData);
+                return (
+                  <div className="bg-red-50 border border-red-200 rounded-2xl p-6">
+                    <h3 className="font-medium mb-3 flex items-center gap-2 text-red-700">
+                      <AlertTriangle className="w-5 h-5" />
+                      若持續暴露於偽冒風險中...
+                    </h3>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-start gap-3 bg-white/50 rounded-xl p-3">
+                        <span className="text-lg">💸</span>
+                        <div>
+                          <span className="font-medium text-red-700">信任成本</span>
+                          <p className="text-red-600/80 mt-0.5">
+                            私訊質疑預估增加 <span className="font-semibold">{impact.trustCost.dmIncrease}</span>、廣告負評比例上升 <span className="font-semibold">{impact.trustCost.negativeRatio}</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 bg-white/50 rounded-xl p-3">
+                        <span className="text-lg">📉</span>
+                        <div>
+                          <span className="font-medium text-red-700">金錢成本</span>
+                          <p className="text-red-600/80 mt-0.5">
+                            廣告 CPM 可能上升 <span className="font-semibold">{impact.moneyCost.cpmIncrease}</span>、轉換率下降 <span className="font-semibold">{impact.moneyCost.conversionDrop}</span>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 bg-white/50 rounded-xl p-3">
+                        <span className="text-lg">🔄</span>
+                        <div>
+                          <span className="font-medium text-red-700">修復成本</span>
+                          <p className="text-red-600/80 mt-0.5">
+                            清除偽冒後，品牌信任回復需 <span className="font-semibold">{impact.recoveryCost.months}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-red-500/70 mt-4 pt-3 border-t border-red-200">
+                      現在省下的處理成本，未來會變成數倍的修復成本
+                    </p>
+                  </div>
+                );
+              })()}
 
               {/* Suggested Keywords */}
               <div className="bg-foreground/[0.02] rounded-2xl p-6 border border-foreground/5">

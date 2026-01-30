@@ -1,4 +1,4 @@
-import { ListChecks, Lightbulb, FileText, Bell, HeartHandshake } from 'lucide-react';
+import { ListChecks, Lightbulb, FileText, Bell, HeartHandshake, TrendingDown } from 'lucide-react';
 
 const values = [
   {
@@ -24,6 +24,12 @@ const values = [
     title: '週報與即時通知',
     description: '高風險事件即時掌握，定期週報讓您持續了解監控狀態，數據交付感透明且有感。',
     highlight: '重要事件即時推播，不會漏接',
+  },
+  {
+    icon: TrendingDown,
+    title: '不作為成本分析',
+    description: '評估偽冒期間的信任成本（負評增加）、金錢成本（廣告效益下降、客服量上升）、以及未來修復成本。',
+    highlight: '現在省下的處理成本，未來會變成數倍的修復成本',
   },
   {
     icon: HeartHandshake,
